@@ -5,10 +5,10 @@ import { useAuth } from '../contexts/AuthContext'
 import { Home, LogOut, CheckCircle } from 'lucide-react'
 
 const houses = [
-  { number: 1, name: 'House Alpha', color: 'bg-red-500' },
-  { number: 2, name: 'House Beta', color: 'bg-blue-500' },
-  { number: 3, name: 'House Gamma', color: 'bg-green-500' },
-  { number: 4, name: 'House Delta', color: 'bg-purple-500' }
+  { number: 1, name: 'House 1', color: 'bg-red-500' },
+  { number: 2, name: 'House 2', color: 'bg-blue-500' },
+  { number: 3, name: 'House 3', color: 'bg-green-500' },
+  { number: 4, name: 'House 4', color: 'bg-purple-500' }
 ]
 
 const HouseSelection: React.FC = () => {
@@ -160,10 +160,6 @@ const HouseSelection: React.FC = () => {
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">
                     {house.name}
                   </h3>
-                  
-                  <p className="text-gray-600 mb-4">
-                    House {house.number}
-                  </p>
                   
                   <div className="inline-flex items-center text-blue-600 font-medium group-hover:text-blue-700">
                     View Candidates
