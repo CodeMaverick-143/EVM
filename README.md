@@ -1,4 +1,4 @@
-# Hostel Election Voting System (EVM)
+# Hostel Election Voting Machine (EVM)
 
 A full-stack web application for conducting hostel elections with ranked voting system.
 
