@@ -19,7 +19,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     ...(typeof window !== 'undefined' && {
       providers: {
         google: {
-          redirectTo: `${window.location.origin}`,
+          redirectTo: import.meta.env.PROD ? import.meta.env.VITE_PRODUCTION_URL : `${window.location.origin}`,
         },
       },
     }),
