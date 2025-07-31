@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { Session, User } from '@supabase/supabase-js'
 import { supabase } from '../lib/supabase'
 
-
 interface AuthContextType {
   user: User | null
   session: Session | null
@@ -36,7 +35,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     let mounted = true
-    
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session }, error }) => {
       if (mounted) {
@@ -53,22 +52,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         console.log('Auth state changed:', event, session?.user?.email)
-        
+
         if (mounted) {
           setSession(session)
           setUser(session?.user ?? null)
           setLoading(false)
-          
-          // Handle successful sign in
+
           if (event === 'SIGNED_IN' && session?.user) {
-            const email = session.user.email;
-            if (email?.endsWith('@adypu.edu.in')) {
-              // Redirect to home page after successful auth
-              navigate('/');
+            const email = session.user.email
+            const allowedDomains = ['@adypu.edu.in', '@newtonschool.co']
+
+            const isAllowed = allowedDomains.some(domain => email?.endsWith(domain))
+
+            if (isAllowed) {
+              navigate('/')
             } else {
-              // Sign out user and redirect to unauthorized page
-              supabase.auth.signOut();
-              navigate('/unauthorized');
+              await supabase.auth.signOut()
+              navigate('/unauthorized')
             }
           }
         }
@@ -89,7 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           ? 'https://evm-adypu.vercel.app'
           : 'http://localhost:5173',
       },
-    });
+    })
 
     if (error) {
       console.error('Google sign in error:', error)
@@ -103,8 +103,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.error('Sign out error:', error)
       throw error
     }
-    
-    // Force redirect to login page
+
     navigate('/login')
   }
 
